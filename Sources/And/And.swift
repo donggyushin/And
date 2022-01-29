@@ -12,6 +12,22 @@ extension And where Self: AnyObject {
     }
 }
 
+extension And where Self: Any {
+    /// Makes it available to execute something with closures.
+    @inlinable
+    public func `do`(_ block: (Self) -> Void) {
+        block(self)
+    }
+    
+    /// Makes it available to set properties with closures just after initializing and copying the value types.
+    @inlinable
+    public func with(_ block: (inout Self) -> Void) -> Self {
+        var copy = self
+        block(&copy)
+        return copy
+    }
+}
+
 extension NSObject: And {}
 extension Array: And {}
 extension Dictionary: And {}
